@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 
 #target
 all: main.o employeeClass.o
-	$(CC) $(CFLAGS) -o hw2 main.o employeeClass.o
+	$(CC) $(CFLAGS) -o hw3 main.o employeeClass.o
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp 
 employeeClass.o: employeeClass.cpp

@@ -45,12 +45,14 @@ void Employee::CountLoading(string date, string timeHM) {
 	int m = stoi(timeHM.substr(2, 2));
 
 	int workingTime = 0;
+
 	//判斷類型sign-in 代表上次是上班 這次是下班
-	if(sighMap[date].type == "sigh-in") {
+	if(sighMap[date].type == "sign-in") {
 		workingTime = (h-lastH)*60 + (m-lastM);
 	}else {
 		workingTime = (lastH-h)*60 + (lastM-m);
 	}
+	
 
 	//確認是否超時工作
 	if(workingTime > 8*60) {
