@@ -1,6 +1,6 @@
 #variable
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c++17
 
 #target
 all: main.o employeeClass.o
@@ -8,7 +8,7 @@ all: main.o employeeClass.o
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp 
 employeeClass.o: employeeClass.cpp
-	$(CC) $(CFLAGS) -c employeeClass.cpp 
+	$(CC) $(CFLAGS) -c employeeClass.cpp
 
 #clean
 clean:

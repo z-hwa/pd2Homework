@@ -1,7 +1,8 @@
 #include<iostream>
-#include"employeeClass.h"
 #include<string>
 #include<ctime>
+#include<iomanip>
+#include"employeeClass.h"
 //#include<unordered_map>
 //#include<vector>
 //#include<algorithm>
@@ -12,8 +13,8 @@ Employee::Employee(string id) {
 	this->max_Keeping_Day = 0;
 	this->startDay = 0;
 	this->endDay = 0;
-	
-	//åˆå§‹åŒ–æœ€æ—©çš„å¯èƒ½æ‰“å¡ç´€éŒ„ 20120101
+
+	//ªì©l¤Æ³Ì¦­ªº¥i¯à¥´¥d¬ö¿ı 20120101
 	this->ORIGIN_DAY.tm_year = 2012 - STARTYEAR;
 	this->ORIGIN_DAY.tm_mon = 1 - MINUSMON;
 	this->ORIGIN_DAY.tm_mday = 1;
@@ -24,64 +25,64 @@ Employee::Employee(string id) {
 
 void Employee::Sigh(string date) {
 
-	//å¾dateä¸­ åˆ‡å‰²å‡ºå¹´æœˆæ—¥ date: 20121016
+	//±qdate¤¤ ¤Á³Î¥X¦~¤ë¤é date: 20121016
 	int year = stoi(date.substr(0, 4));
 	int month = stoi(date.substr(4, 2));
 	int day = stoi(date.substr(6, 2));
 
-	//ç²å–ç•¶å‰æ™‚é–“
+	//Àò¨ú·í«e®É¶¡
 	tm nowCheck = {};
 	nowCheck.tm_year = year - STARTYEAR;
 	nowCheck.tm_mon = month - MINUSMON;
 	nowCheck.tm_mday = day;
 
-	//è½‰æ›ç‚ºtime_té¡å‹
+	//Âà´«¬°time_tÃş«¬
 	time_t nowTime = mktime(&nowCheck);
- 	time_t originTime = mktime(&ORIGIN_DAY);
+	time_t originTime = mktime(&ORIGIN_DAY);
 
-	//è¨ˆç®—ç§’æ•¸å·®
+	//­pºâ¬í¼Æ®t
 	double diff = difftime(nowTime, originTime);
 
-	//è½‰å›å¤©æ•¸ ä½œç‚ºindexä½¿ç”¨
+	//Âà¦^¤Ñ¼Æ §@¬°index¨Ï¥Î
 	int index = diff / ONEDAY;
 
-	workingSheet[index].sigh = 1; //ä»£è¡¨è©²å¤©æœ‰ä¸Šç­
-	workingSheet[index].diff = diff; //ä¿ç•™åŸå§‹æ™‚é–“å·®
-	return ;
+	workingSheet[index].sigh = 1; //¥Nªí¸Ó¤Ñ¦³¤W¯Z
+	workingSheet[index].diff = diff; //«O¯d­ì©l®É¶¡®t
+	return;
 }
 
 void Employee::Count_Keeping_Day() {
-	int nowCount = 0; //è¨ˆç®—ç•¶ä¸‹ç´¯è¨ˆçš„ä¸Šç­æ—¥
-	int nowSt = 0; //è¨ˆç®—ç•¶ä¸‹ç´¯ç©çš„é–‹å§‹æ—¥
+	int nowCount = 0; //­pºâ·í¤U²Ö­pªº¤W¯Z¤é
+	int nowSt = 0; //­pºâ·í¤U²Ö¿nªº¶}©l¤é
 
-	for(int i=0;i<SHEET_DAY_NUM;i++) {
+	for (int i = 0; i < SHEET_DAY_NUM; i++) {
 
-		if(workingSheet[i].sigh == 1) {
-			//å¦‚æœè¢«åˆå§‹åŒ– åœ¨ç´€éŒ„é–‹å§‹æ—¥
-			if(nowSt == 0) nowSt = i;
+		if (workingSheet[i].sigh == 1) {
+			//¦pªG³Qªì©l¤Æ ¦b¬ö¿ı¶}©l¤é
+			if (nowSt == 0) nowSt = i;
 			nowCount++;
 		}
 		else {
-			//å¦‚æœé€™å€‹äººæ›¾ç¶“æœ‰å…©æ¬¡é€£çºŒå·¥ä½œå¤©æ•¸éƒ½æ˜¯æœ€é«˜,
-			//é‚£è¦ç´€éŒ„å“ªä¸€æ¬¡ï¼Ÿ
-			//ç›®å‰æ˜¯ç´€éŒ„æœ€æ—©çš„ä¸€æ¬¡
-			if(nowCount > max_Keeping_Day) {
+			//¦pªG³o­Ó¤H´¿¸g¦³¨â¦¸³sÄò¤u§@¤Ñ¼Æ³£¬O³Ì°ª,
+			//¨º­n¬ö¿ı­ş¤@¦¸¡H
+			//¥Ø«e¬O¬ö¿ı³Ì¾aªñ2023ªº¤@¦¸
+			if (nowCount >= max_Keeping_Day) {
 				max_Keeping_Day = nowCount;
 				startDay = nowSt;
-				endDay = i-1;
+				endDay = i - 1;
 			}
 			nowSt = 0;
 			nowCount = 0;
 		}
 	}
 
-	return ;
+	return;
 }
 
-//æ¯”è¼ƒå…©è€…ä¹‹é–“çš„é€£çºŒå·¥ä½œæ—¥
+//¤ñ¸û¨âªÌ¤§¶¡ªº³sÄò¤u§@¤é
 int Employee::MaxingDay_Check(Employee* ep) {
-	if(this->max_Keeping_Day == ep->max_Keeping_Day) return -1; 
-	else if(this->max_Keeping_Day > ep->max_Keeping_Day) return 1;
+	if (this->max_Keeping_Day == ep->max_Keeping_Day) return -1;
+	else if (this->max_Keeping_Day > ep->max_Keeping_Day) return 1;
 	else return 0;
 }
 
@@ -90,65 +91,17 @@ void Employee::PrintInfo() {
 	time_t originTime = mktime(&ORIGIN_DAY); //20120101
 
 	time_t stS = workingSheet[startDay].diff;
-	time_t edS = workingSheet[endDay].diff ;
-	
-	time_t stT = stS + originTime; //è·é›¢19000101çš„ç§’æ•¸ å¯ä»¥è½‰å›å»
-	time_t edT = edS  + originTime;
+	time_t edS = workingSheet[endDay].diff;
 
-	struct tm *st, *ed;
+	time_t stT = stS + originTime; //¶ZÂ÷19000101ªº¬í¼Æ ¥i¥HÂà¦^¥h
+	time_t edT = edS + originTime;
 
-	st = localtime(&stT); //tmé¡å‹çš„æ™‚é–“
+	struct tm* st, * ed;
 
-	cout << id << "," << max_Keeping_Day << "," << st->tm_year + STARTYEAR << st->tm_mon + MINUSMON << st->tm_mday;
+	st = localtime(&stT); //tmÃş«¬ªº®É¶¡
+
+	cout << id << "," << max_Keeping_Day << "," << st->tm_year + STARTYEAR << setw(2) << setfill('0') << right << st->tm_mon + MINUSMON << setw(2) << setfill('0') << right << st->tm_mday;
 
 	ed = localtime(&edT);
-	cout << "," << ed->tm_year + STARTYEAR << ed->tm_mon + MINUSMON << ed->tm_mday  << endl;
+	cout << "," << ed->tm_year + STARTYEAR << setw(2) << setfill('0') << right << ed->tm_mon + MINUSMON << setw(2) << setfill('0') << right << ed->tm_mday << endl;
 }
-
-/*
-void Employee::Sigh(string type, string time) {
-	string date = time.substr(0, 8); //copy date from time like 20170105
-
-	//ç¬¬ä¸€æ¬¡åœ¨æ‰“å¡ç³»çµ±å‡ºç¾ç´€éŒ„(åœ¨mapä¸­æ²’æœ‰æ‰¾åˆ°)
-	if(sighMap.count(date) == 0) {
-		dailyTime dt; //å»ºç«‹å°è©²ç­†ç´€éŒ„çš„daliyTime
-		dt.lastSighHM = time.substr(8, 4); //è¨­å®šç•¶å¤©æ—¥æœŸçš„æ‰“å¡æ™‚é–“ ex: 1205
-		dt.type = type; //è¨­å®šé¡å‹ç‚ºtype
-		sighMap[date] = dt; //æ·»åŠ è©²ç­†ç´€éŒ„åˆ°mapä¸­
-
-		sighForgetDays++; //å…ˆæ·»åŠ å¿˜è¨˜ç¬¬äºŒæ¬¡æ‰“å¡çš„å¯èƒ½æ€§,
-				  //å¦‚æœæœ‰ç¬¬äºŒæ¬¡åœ¨æ¶ˆé™¤
-	}else {
-		//ç¬¬äºŒæ¬¡å‡ºç¾åœ¨æ‰“å¡ç³»çµ±
-		sighForgetDays--; //åˆªé™¤é å…ˆåŠ ä¸Šçš„å¿˜è¨˜ç´€éŒ„
-
-		CountLoading(date, time.substr(8, 4)); //è¨ˆç®—æ˜¯å¦è¶…æ™‚å·¥ä½œ
-	}
-}
-
-void Employee::PrintInfo() {
-	cout << id << "," << overloadingDays << "," << sighForgetDays << endl;
-}
-
-void Employee::CountLoading(string date, string timeHM) {
-	//è½‰åŒ–å°æ™‚ å’Œ åˆ†ç‚ºæ•¸å­—
-	int lastH = stoi(sighMap[date].lastSighHM.substr(0, 2));
-	int lastM = stoi(sighMap[date].lastSighHM.substr(2, 2));
-	int h = stoi(timeHM.substr(0, 2));
-	int m = stoi(timeHM.substr(2, 2));
-
-	int workingTime = 0;
-
-	//åˆ¤æ–·é¡å‹sign-in ä»£è¡¨ä¸Šæ¬¡æ˜¯ä¸Šç­ é€™æ¬¡æ˜¯ä¸‹ç­
-	if(sighMap[date].type == "sign-in") {
-		workingTime = (h-lastH)*60 + (m-lastM);
-	}else {
-		workingTime = (lastH-h)*60 + (lastM-m);
-	}
-	
-
-	//ç¢ºèªæ˜¯å¦è¶…æ™‚å·¥ä½œ
-	if(workingTime > 8*60) {
-		overloadingDays++;
-	}
-}*/
