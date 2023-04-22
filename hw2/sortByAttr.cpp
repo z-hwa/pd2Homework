@@ -10,7 +10,7 @@ using namespace std;
 //type for unit career
 class Unit{
 	public:
-		string id; //ID
+		int id; //ID
 		int age;
 		char gender;
 		int salary;
@@ -94,7 +94,7 @@ int GetInput(string filename) {
 			while(getline(s1, data[n], ',')) n++;
 
 			//set data
-			unit.id = data[0];
+			unit.id = stoi(data[0]);
 			unit.age = stoi(data[1]);
 			unit.gender = data[2][0];
 			unit.salary = stoi(data[3]);
