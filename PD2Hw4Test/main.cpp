@@ -8,7 +8,7 @@
 using namespace std;
 
 int peopleNumber = 0, recUpper = 0; //存放要生成的人數 以及記錄組數
-const int idUpper = 100, passUpper = 100, keepUpper = 30; //id 增量上限
+const int idUpper = 100, passUpper = 100, keepUpper = 100; //id 增量上限
 int needFileNum = 3; //需要的檔案數
 fstream file; //使用的流
 vector<Employee*> vec; //儲存每個職員
