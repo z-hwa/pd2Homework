@@ -18,10 +18,15 @@ TrieNode::~TrieNode() {
 }
 
 //將當前節點 標記為一個單字
-void TrieNode::SetIsWord() {
+void TrieNode::SetIsWord(string textId) {
 	this->isWord = true;
+
+	//發現該單字 已經有了相同的來源文本 原值+1
+	if (this->recordIds.count(textId) == 1) this->recordIds[textId] += 1;
+	else this->recordIds[textId] = 1; //沒有就創建 並設為1
 }
 
+//檢查到該節點是否已經形成單字
 bool TrieNode::CheckIsWord() {
 	return this->isWord;
 }
