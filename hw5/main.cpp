@@ -148,6 +148,8 @@ vector<string> SpiltText(string text) {
     //如果可以從字串流中取出東西
     while (ss >> token) {
         
+        pos = 0; //對每一個單字的'-'檢測位置 做初始化
+        
         //如果可以在該單字中找到 '-' 那就擦除
         pos = token.find('-', pos); //like do-while
         
