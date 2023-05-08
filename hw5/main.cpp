@@ -126,9 +126,9 @@ void ProductTrie() {
 }
 
 //檢測字元是不是 字母
-//如果是 - 代表左右相鄰的字母是連在一起的 故先保留該字元
+//如果是 ' ' 保留
 bool IsAlpha(char c) {
-    if (c == '-') return false;
+    if (c == ' ') return false;
     else return !isalpha(c); //如果是字母 回傳false
                              //other true
 }
@@ -137,27 +137,13 @@ bool IsAlpha(char c) {
 vector<string> SpiltText(string text) {
     vector<string> words; //用於儲存分割後的每個單字
 
-    replace_if(text.begin(), text.end(), IsAlpha, ' '); //把非字母的字元 置換成空白
-                                                        //除了 '-' 會額外保留
+    text.erase(remove_if(text.begin(), text.end(), IsAlpha), text.end()); //把非字母的字元 直接刪除
     
     stringstream ss(text); //將文本放進 字串流
     string token; //暫存單字
 
-    size_t pos = 0; //用於紀錄 '-' 字元的位置
-
     //如果可以從字串流中取出東西
     while (ss >> token) {
-        
-        pos = 0; //對每一個單字的'-'檢測位置 做初始化
-        
-        //如果可以在該單字中找到 '-' 那就擦除
-        pos = token.find('-', pos); //like do-while
-        
-        while (pos != token.npos) {
-            token.erase(pos, 1);
-            pos = token.find('-', pos);
-        }
-
         words.push_back(token); //將取出的單字放進words
     }
 
