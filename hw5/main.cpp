@@ -75,9 +75,10 @@ void FindByQuery() {
 
                 for (auto it = tempMap.begin(); it != tempMap.end(); it++) {
                     string key = (*it).first; //取得鍵
-                    int values = (*it).second; //取得值
+                    //int values = (*it).second; //取得值
 
-                    if (totalMap.count(key) == 1) totalMap[key] += values;
+                    //.count回傳1 代表找到 所以+1 因為是檢查key的文本存不存在當前關鍵字
+                    if (totalMap.count(key) == 1) totalMap[key] += 1;
                     else totalMap[key] = 1;
                 }
             }
@@ -88,7 +89,10 @@ void FindByQuery() {
         //查詢total map數量符合 就放進排序vec中
         for (auto it = totalMap.begin(); it != totalMap.end(); it++) {
             string key = (*it).first; //獲得key (text id)
-            if (totalMap[key] == keyWordNum) sortingText.push_back(key);
+            //cout << key << ":" << totalMap[key] << endl;
+            if (totalMap[key] == keyWordNum) {
+                sortingText.push_back(key);
+            }
         }
 
         //排序id
