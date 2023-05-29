@@ -100,8 +100,8 @@ void PartMapSearch() {
         sort(sortingText.begin(), sortingText.end(), Comp);
 
         //沮knum块
-        auto it = sortingText.begin();
-        int legalNum = sortingText.size();
+        auto it = sortingText.begin(); //ゅセ皐
+        int legalNum = sortingText.size(); //才で皌ゅセ计秖
         for (int i = 0; i < kNum; i++) {
             //狦块计秖 ぶΘで皌ゅセ计秖 块id it++
             if (i < legalNum) {
