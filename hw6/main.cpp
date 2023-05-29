@@ -98,8 +98,8 @@ void PartMapSearch() {
         //根據knum輸出
         auto it = sortingText.begin();
         for (int i = 0; i < kNum; i++) {
-            //如果存在符合匹配的文本 輸出該文本id it++
-            if (it != sortingText.end()) {
+            //如果輸出的數量 少於成功匹配的文本數量 輸出id it++
+            if (i < sortingText.size) {
                 cout << (*it).first;
                 it++;
             }
