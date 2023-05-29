@@ -73,14 +73,18 @@ void PartMapSearch() {
             //如果正確找到
             if (trie->IsWantedWord(p) == true) {
                 p->CountIDF(totalTextNum); //計算此關鍵字的最終idf
-                tempMap = trie->GetSourceMap(p); //獲得此單字的ref of map
 
-                for (auto it = tempMap.begin(); it != tempMap.end(); it++) {
-                    string key = (*it).first; //取得鍵 (id)
+                //且此關鍵字的idf不等於0
+                if (p->GetIDF() != 0) {
+                    tempMap = trie->GetSourceMap(p); //獲得此單字的ref of map
 
-                    //.count回傳1 代表找到 所以+idf
-                    if (totalMap.count(key) == 1) totalMap[key] += p->GetIDF(); 
-                    else totalMap[key] = p->GetIDF();
+                    for (auto it = tempMap.begin(); it != tempMap.end(); it++) {
+                        string key = (*it).first; //取得鍵 (id)
+
+                        //.count回傳1 代表找到 所以+idf
+                        if (totalMap.count(key) == 1) totalMap[key] += p->GetIDF();
+                        else totalMap[key] = p->GetIDF();
+                    }
                 }
             }
         }
@@ -97,9 +101,10 @@ void PartMapSearch() {
 
         //根據knum輸出
         auto it = sortingText.begin();
+        int legalNum = sortingText.size();
         for (int i = 0; i < kNum; i++) {
             //如果輸出的數量 少於成功匹配的文本數量 輸出id it++
-            if (i < sortingText.size) {
+            if (i < legalNum) {
                 cout << (*it).first;
                 it++;
             }
