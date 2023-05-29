@@ -95,23 +95,20 @@ void PartMapSearch() {
         //排序id
         sort(sortingText.begin(), sortingText.end(), Comp);
 
-        //如果沒有找到
-        if (sortingText.size() == 0) cout << "沒有任何文本匹配任一關鍵字";
-        else {
-            int outNum = 0; //紀錄已經輸出的數量
-            
-            //輸出id直到符合knum 或是 不存在匹配度>0的文本
-            for (auto it = sortingText.begin(); it != sortingText.end() && outNum < kNum; it++, outNum++) {
+        //根據knum輸出
+        auto it = sortingText.begin();
+        for (int i = 0; i < kNum; i++) {
+            //如果存在符合匹配的文本 輸出該文本id it++
+            if (it != sortingText.end()) {
                 cout << (*it).first;
-#ifdef IDF
-                cout << ":" << (*it).second;
-#endif // IDF
-
-                if (it + 1 != sortingText.end() && outNum != kNum) cout << " "; //下一個
-                                                                                    //不是匹配度>0的vec end pointer
-                                                                                    //以及knum最後一個
-                                                                                    //輸出空白
+                it++;
             }
+            else cout << "-1"; //不存在則輸出-1
+
+            if (i != kNum - 1) cout << " "; //下一個
+                                                                       //不是匹配度>0的vec end pointer
+                                                                       //以及knum - 1個
+                                                                       //輸出空白
         }
 
         cout << endl; //換行
