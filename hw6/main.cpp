@@ -74,6 +74,10 @@ void PartMapSearch() {
             if (trie->IsWantedWord(p) == true) {
                 p->CountIDF(totalTextNum); //計算此關鍵字的最終idf
 
+#ifdef DEBUG
+                cout << word << ": " << p->GetIDF() << endl;
+#endif
+
                 //且此關鍵字的idf不等於0
                 if (p->GetIDF() != 0) {
                     tempMap = trie->GetSourceMap(p); //獲得此單字的ref of map
@@ -105,7 +109,7 @@ void PartMapSearch() {
         for (int i = 0; i < kNum; i++) {
             //如果輸出的數量 少於成功匹配的文本數量 輸出id it++
             if (i < legalNum) {
-                cout << (*it).first;
+                cout << (*it).first << ": " << (*it).second;
                 it++;
             }
             else cout << "-1"; //不存在則輸出-1
