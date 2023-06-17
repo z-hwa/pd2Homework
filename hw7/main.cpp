@@ -51,6 +51,8 @@ int main(int argc, char** argv) {
 
     PartMapSearch();
 
+    //cout << "fsd" << endl;
+
 	return 0;
 }
 
@@ -61,15 +63,24 @@ void PartMapSearch() {
 
     unordered_map<string, vector<Keywords>> totalMap; //加總出現的文本 查找到的所有關鍵字資料
     unordered_map<string, int> tempMap; //紀錄指向特定關鍵字的map的ref
+    Keywords* k = new Keywords(); //暫存k
 
     vector<pair<string, double>> sortingText; //用於排序text
 
     //從檔案流取出資料 以 行 為處理單位 
     while (getline(file, text))
     {
-        totalMap.clear(); //對新的提問 更新計算IDF的map
+        
+        //cout << "test1" << endl;
+
+        //對新的提問 更新計算IDF的map
+        totalMap.clear();
+
+        //cout << "test1.5" << endl;
+
         sortingText.clear(); //清空排序vector
-        Keywords* k = new Keywords(); //暫存k
+
+        //cout << "test2" << endl;
 
         vector<string> words; //儲存單字
         words = SpiltText(text); //切割單字
@@ -102,7 +113,7 @@ void PartMapSearch() {
                         //cout << key << ": " << idf << endl;
                         //cout << key << endl;
                         //cout << wordTotalNum[key] << endl; //test
-                        double new_tf = occurence / wordTotalNum[key]; //取得tf
+                        double new_tf = (double)occurence / (double)wordTotalNum[key]; //取得tf
                         //cout << "true" << endl;
 
                         k->SetValue(idf, new_tf); //生成新的關鍵字資料
@@ -124,14 +135,14 @@ void PartMapSearch() {
             int recTimes = 0; //已加總的關鍵字數量
             double r; //r value
 
-            cout << "S_ID_" << (*it).first << ": ";
+            //cout << "S_ID_" << (*it).first << ": ";
 
             for (auto p = (*it).second.begin(); p != (*it).second.end()/* && recTimes < 3*/; p++, recTimes++) {
                 r += (*p).getIdf() * (*p).getNew_tf(); //累加r值
-                cout << (*p).getIdf() << ", " << (*p).getNew_tf();
+                //cout << (*p).getIdf() << ", " << (*p).getNew_tf(); //BUgging
             }
 
-            cout << endl;
+            //cout << endl;
 
             pair<string, double> eachText;
             eachText.first = (*it).first, eachText.second = r;
@@ -147,7 +158,7 @@ void PartMapSearch() {
         for (int i = 0; i < kNum; i++) {
             //如果輸出的數量 少於成功匹配的文本數量 輸出id it++
             if (i < legalNum) {
-                cout << (*it).first << ": " << (*it).second;
+                cout << (*it).first; /* << ": " << (*it).second*/;
                 it++;
             }
             else cout << "-1"; //不存在則輸出-1

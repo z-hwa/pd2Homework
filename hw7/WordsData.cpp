@@ -10,7 +10,7 @@ Keywords::Keywords() {
 
 //destructor
 Keywords::~Keywords() {
-	delete this;
+
 }
 
 //set
