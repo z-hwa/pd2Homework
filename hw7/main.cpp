@@ -70,17 +70,9 @@ void PartMapSearch() {
     //從檔案流取出資料 以 行 為處理單位 
     while (getline(file, text))
     {
-        
-        //cout << "test1" << endl;
-
         //對新的提問 更新計算IDF的map
         totalMap.clear();
-
-        //cout << "test1.5" << endl;
-
         sortingText.clear(); //清空排序vector
-
-        //cout << "test2" << endl;
 
         vector<string> words; //儲存單字
         words = SpiltText(text); //切割單字
@@ -105,27 +97,23 @@ void PartMapSearch() {
                     tempMap = trie->GetSourceMap(p); //獲得此單字的ref of map
 
                     for (auto it = tempMap.begin(); it != tempMap.end(); it++) {
-                        //cout << "timesssss" << endl;
                         string key = (*it).first; //取得鍵 (文本id)
                         int occurence = (*it).second; //取得該關鍵字在文本中的出現次數
                         
                         double idf = p->GetIDF(); //取得idf
-                        //cout << key << ": " << idf << endl;
                         //cout << key << endl;
                         //cout << wordTotalNum[key] << endl; //test
                         double new_tf = (double)occurence / (double)wordTotalNum[key]; //取得tf
-                        //cout << "true" << endl;
+
+                        //cout << key << ": IDF-> " << idf  << ", ";
+                        //cout << "newTF->" << new_tf << endl << endl;
 
                         k->SetValue(idf, new_tf); //生成新的關鍵字資料
 
                         totalMap[key].push_back(*k); //放進vector中
-                        //cout << "test1" << endl;
                     }
-                    //cout << "test a" << endl;
                 }
             }
-
-            //cout << "testp" << endl;
         }
 
         //排序每個文本的關鍵字資料
@@ -133,19 +121,21 @@ void PartMapSearch() {
             sort((*it).second.begin(), (*it).second.end(), Comp2); //排序idf, new_tf
 
             int recTimes = 0; //已加總的關鍵字數量
-            double r; //r value
+            double r = 0.0; //r value
 
             //cout << "S_ID_" << (*it).first << ": ";
 
             for (auto p = (*it).second.begin(); p != (*it).second.end()/* && recTimes < 3*/; p++, recTimes++) {
                 r += (*p).getIdf() * (*p).getNew_tf(); //累加r值
-                //cout << (*p).getIdf() << ", " << (*p).getNew_tf(); //BUgging
+                //cout << (*p).getIdf() << ", " << (*p).getNew_tf() << endl; //BUgging
             }
 
             //cout << endl;
 
             pair<string, double> eachText;
             eachText.first = (*it).first, eachText.second = r;
+
+            //cout << eachText.first << ", " << eachText.second << endl;
             sortingText.push_back(eachText);
         }
 
